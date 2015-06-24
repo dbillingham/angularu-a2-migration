@@ -9,6 +9,20 @@ BoxService.prototype.add = function add() {
   this.boxSubject.onNext(this.boxes);
 };
 
+var boxValue = angular.
+  Component({
+    selector: 'box-value',
+    properties: ['myvalue']
+  }).
+  View({
+    templateUrl: './box-value.html'
+  }).
+  Class({
+    constructor: [BoxService, function(boxService) {
+      this.boxService = boxService;
+    }]
+});
+
 var boxList = angular.
   Component({
     selector: 'box-list',
@@ -16,11 +30,12 @@ var boxList = angular.
   }).
   View({
     templateUrl: './box-list.html',
-    directives: [angular.NgFor]
+    directives: [angular.NgFor, boxValue]
   }).
   Class({
     constructor: [BoxService, function(boxService) {
-      this.boxService = boxService;
+      this.boxService = boxService;      
+      this.myvalue = boxService.boxes.length;
     }]
   });
 
@@ -39,6 +54,6 @@ var boxApp = angular.
         this.boxes = boxes;
       }.bind(this));
     }]
-  });
+  }); 
 
 angular.bootstrap(boxApp);
